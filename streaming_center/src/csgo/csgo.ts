@@ -1,6 +1,6 @@
 /*
  * @Author: LuiScreaMed lui5@qq.com
- * @LastEditTime: 2023-04-04 20:46:40
+ * @LastEditTime: 2023-04-05 23:53:03
  * Copyright (c) 2023 by LuiScreaMed
  * MIT Licensed
  * @Description: csgo/vts/obs integration
@@ -33,7 +33,7 @@ export default class Csgo {
 
     ///启用csgo交互服务器
     start() {
-        this.server = new CsgoServer({ port: this.port, observeSteamId: this.observeSteamId, host: this.host, auth: this.auth });
+        this.server = new CsgoServer({ port: this.port, observeSteamId: this.observeSteamId, auth: this.auth });
         ///设置csgo的事件，这里设置了生命值、mvp、被雷的事件
         this.server.setHandler([Events.healthEvent, Events.mvpEvent, Events.nadeEvent]);
         let handler: CsgoEventHandler = this.server.handler;

@@ -11,8 +11,6 @@ import { CsgoEvent } from './event_handler/csgo_events/event_type.js';
 interface CsgoServerParam {
     /* 服务器端口 */
     port: number,
-    /* 服务器地址 */
-    host?: string,
     /* 所监听用户的steamid，当为undefined时监听所有用户 */
     observeSteamId?: string,
     /* 安全验证 */
@@ -21,7 +19,6 @@ interface CsgoServerParam {
 
 export default class CsgoServer {
     port: number;
-    host?: string = '127.0.0.1';
     server?: http.Server;
     handler: CsgoEventHandler;
     body: string;
@@ -33,7 +30,6 @@ export default class CsgoServer {
      */
     constructor(params: CsgoServerParam) {
         this.port = params.port;
-        this.host = params.host ?? '127.0.0.1';
         this.auth = params.auth;
         this.handler = new CsgoEventHandler(params.observeSteamId);
         this.server = null;
@@ -51,13 +47,15 @@ export default class CsgoServer {
         this.server = http.createServer((req, res) => {
             this.createServer(req, res);
         })
-        this.server.listen(this.port, this.host);
-        console.log(`csgo server on: listening to http://${this.host}:${this.port}`);
+        this.server.listen(this.port);
+        console.log(`csgo server on: listening to ${this.port}`);
     }
 
     // 处理csgo发来的信息，csgo是一股脑的向程序发送post来达到数据实时，就很mmp —— Sonic853
     createServer(req: http.IncomingMessage, res: http.ServerResponse) {
         if (req.method == 'POST') {
+            res.setHeader("Access-Control-Allow-Origin", "*");
+            res.setHeader("Content-Type", "*");
             res.writeHead(200, { 'Content-Type': 'text/html' })
             let body = ''
             req.on('data', (data) => {
@@ -84,7 +82,7 @@ export default class CsgoServer {
         else {
             console.log('Not expecting other request types...')
             res.writeHead(200, { 'Content-Type': 'text/html' })
-            res.end('<html><body>HTTP Server at http://' + this.host + ':' + this.port + '</body></html>')
+            res.end('<html><body>HTTP Server at ' + this.port + '</body></html>')
         }
     }
 }

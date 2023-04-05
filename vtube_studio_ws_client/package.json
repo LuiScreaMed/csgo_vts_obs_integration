@@ -1,0 +1,17 @@
+{
+    "name": "vtube-studio-ws-client",
+    "version": "0.0.1",
+    "author": "LuiScreaMed",
+    "license": "MIT",
+    "description": "vtube studio websocket client",
+    "main": "dist/index.js",
+    "type": "module",
+    "keywords": [],
+    "dependencies": {
+        "vtubestudio": "^3.3.0",
+        "ws": "^8.13.0"
+    },
+    "devDependencies": {
+        "@types/ws": "^8.5.4"
+    }
+}

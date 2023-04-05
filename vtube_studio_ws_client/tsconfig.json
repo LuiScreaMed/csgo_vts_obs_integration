@@ -1,0 +1,16 @@
+{
+  "compilerOptions": {
+    "target": "ES6",
+    "module": "ES6",
+    "sourceMap": false,
+    "noImplicitAny": true,
+    "moduleResolution": "Node",
+    "experimentalDecorators": true,
+    "rootDir": "src",
+    "outDir": "dist",
+    "esModuleInterop": true,
+    "declaration": true,
+    "declarationDir": "dist",
+    "removeComments": true
+  }
+}

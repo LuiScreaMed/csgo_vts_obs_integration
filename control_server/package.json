@@ -1,0 +1,10 @@
+{
+    "name": "control-server",
+    "version": "0.0.1",
+    "author": "LuiScreaMed",
+    "license": "MIT",
+    "description": "server for controlling obs translations etc via http",
+    "main": "dist/index.js",
+    "type": "module",
+    "keywords": []
+}

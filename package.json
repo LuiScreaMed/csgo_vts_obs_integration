@@ -1,0 +1,15 @@
+{
+  "private": true,
+  "workspaces": [
+    "csgo_integration",
+    "obs_ws_client",
+    "streaming_center",
+    "vtube_studio_ws_client",
+    "control_server",
+    "utils"
+  ],
+  "scripts": {
+    "start": "node --inspect streaming_center/dist/index.js",
+    "build": "tsc --p ./csgo_integration & tsc --p ./streaming_center & tsc --p ./obs_ws_client & tsc --p ./vtube_studio_ws_client & tsc --p ./utils & tsc --p ./control_server"
+  }
+}

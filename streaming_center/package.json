@@ -1,0 +1,10 @@
+{
+    "name": "stream-center",
+    "version": "0.0.1",
+    "author": "LuiScreaMed",
+    "license": "MIT",
+    "description": "main entry",
+    "main": "dist/index.js",
+    "type": "module",
+    "keywords": []
+}

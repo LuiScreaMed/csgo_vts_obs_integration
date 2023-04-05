@@ -1,0 +1,17 @@
+{
+    "name": "csgo-integration",
+    "version": "0.0.1",
+    "author": "LuiScreaMed",
+    "license": "MIT",
+    "description": "csgo gamestate integration",
+    "main": "dist/index.js",
+    "type": "module",
+    "keywords": [],
+    "scripts": {
+        "build:auto": "tsc -w",
+        "build": "tsc"
+    },
+    "devDependencies": {
+        "@types/node": "^16.11.6"
+    }
+}

@@ -1,0 +1,73 @@
+/*
+ * @Author: LuiScreaMed lui5@qq.com
+ * @LastEditTime: 2023-04-05 15:56:45
+ * Copyright (c) 2023 by LuiScreaMed
+ * MIT Licensed
+ * @Description: 用于通过http请求控制前后端和obs的交互
+ */
+import http from 'http';
+import ws from 'ws';
+import url from 'url';
+
+///与前端交互的后端，主要是实现转场
+export default class ControlServer {
+    port: number;
+    server: http.Server;
+    wsServer: ws.WebSocketServer;
+
+    constructor(info: ServerInfo) {
+        this.port = info.port;
+        this.server = http.createServer((req, res) => this.onHttpRequest(req, res));
+        ///http和ws共用端口
+        this.wsServer = new ws.WebSocketServer({ server: this.server });
+    }
+
+    start() {
+        this.wsServer.on('connection', (ws) => {
+            ws.on('error', console.error);
+            ws.on('message', (data) => {
+                ///心跳
+                try {
+                    let message: any = JSON.parse(data.toString());
+                    if (message.type == 'ping') {
+                        ws.send('{"type": "pong"}');
+                    }
+                } catch (e) { console.error(e) }
+            });
+        });
+        this.server.listen(this.port);
+        console.log(`control server on: listening to ${this.port} with http and websocket`);
+    }
+
+    ///处理请求
+    onHttpRequest(req: http.IncomingMessage, res: http.ServerResponse) {
+        res.setHeader("Access-Control-Allow-Origin", "*");
+        res.setHeader("Content-Type", "*");
+        res.writeHead(200, { "Content-Type": "text/plain" });
+        let params = url.parse(req.url, true).query;
+        if (params["action"] === undefined) {
+            res.end('');
+            return;
+        }
+        this.handleAction(params["action"] as string);
+        res.end('');
+    }
+
+    ///处理action
+    handleAction(action: string) {
+        switch (action) {
+            ///转场
+            case "transition": {
+                let msg: string = JSON.stringify({ type: 'action', data: 'transition' });
+                this.wsServer.clients.forEach((client) => {
+                    client.send(msg);
+                });
+                break;
+            }
+        }
+    }
+}
+
+interface ServerInfo {
+    port: number
+}

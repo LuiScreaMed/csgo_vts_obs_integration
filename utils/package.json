@@ -1,0 +1,10 @@
+{
+    "name": "utils",
+    "version": "0.0.1",
+    "author": "LuiScreaMed",
+    "license": "MIT",
+    "description": "utils",
+    "main": "dist/index.js",
+    "type": "module",
+    "private": true
+}

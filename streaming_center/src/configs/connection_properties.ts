@@ -1,6 +1,6 @@
 /*
  * @Author: LuiScreaMed lui5@qq.com
- * @LastEditTime: 2023-04-05 17:29:53
+ * @LastEditTime: 2023-04-05 23:50:20
  * Copyright (c) 2023 by LuiScreaMed
  * MIT Licensed
  * @Description: configs for servers / clients
@@ -23,12 +23,12 @@ export interface Configs {
 
 ///推流机obs相关参数
 const streamObs: Config = {
-    url: "192.168.100.101:4444"
+    url: "192.168.100.101:4444",
 };
 
 ///vts相关参数
 const vts: Config = {
-    url: "ws://192.168.100.100:8001",
+    url: "ws://192.168.100.101:8001",
 };
 
 ///csgo相关参数

@@ -1,6 +1,6 @@
 /*
  * @Author: LuiScreaMed lui5@qq.com
- * @LastEditTime: 2023-04-05 16:35:02
+ * @LastEditTime: 2023-04-06 00:07:42
  * Copyright (c) 2023 by LuiScreaMed
  * MIT Licensed
  * @Description: VTS Websocket client
@@ -125,7 +125,7 @@ export default class Vts {
 
     ///表情文件后缀处理
     #getExpressionName(expressionName: string) {
-        return expressionName.endsWith('.exp3.json') ?
+        return !expressionName.endsWith('.exp3.json') ?
             `${expressionName}.exp3.json` : expressionName;
     }
 }

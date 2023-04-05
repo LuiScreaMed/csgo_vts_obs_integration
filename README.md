@@ -28,6 +28,7 @@
         - `url: string` ***连接VTS websocket的url（带端口）**（如: 127.0.0.1:8001）
     - 推流obs的配置信息需要包含：
         - `url: string` ***连接OBS websocket的url（带端口）**（如: 127.0.0.1:4455）
+        - `password: string` 用于需要身份验证的obs websocket连接
     - 交互后端的配置信息需要包含：
         - `port: number` ***服务端的端口**
 1. 将 `csgo_integration/gamestate_integration_luis.cfg` 文件复制到 `CSGO根目录/csgo/cfg/` 中，如需要修改，请参考 [CSGO Integration文档](#各依赖的文档参)，其中的 `port` 对应 [使用教程](#使用教程) 中 csgo 配置项的端口 `port`

@@ -1,6 +1,6 @@
 /*
  * @Author: LuiScreaMed lui5@qq.com
- * @LastEditTime: 2023-04-04 23:03:02
+ * @LastEditTime: 2023-04-05 23:49:51
  * Copyright (c) 2023 by LuiScreaMed
  * MIT Licensed
  * @Description: obs client
@@ -44,7 +44,7 @@ export default class Obs {
         ///断开重连
         obs.on("ConnectionClosed", (item: OBSWebSocketError) => {
             console.log("obs disconnected");
-            console.error(item);
+            // console.error(item);
             this.reconnect()
         });
         ///源更改
@@ -60,7 +60,7 @@ export default class Obs {
         try {
             await this.obs.connect(this.url, this.password);
         } catch (e) {
-            // error
+            // console.error(e);
         }
     }
 

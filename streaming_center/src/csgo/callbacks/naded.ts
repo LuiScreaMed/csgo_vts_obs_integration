@@ -1,6 +1,6 @@
 /*
  * @Author: LuiScreaMed lui5@qq.com
- * @LastEditTime: 2023-04-06 00:51:25
+ * @LastEditTime: 2023-04-06 01:19:05
  * Copyright (c) 2023 by LuiScreaMed
  * MIT Licensed
  * @Description: csgo naded event callbacks
@@ -32,7 +32,7 @@ export async function onPlayerSmokedOff() {
 export function onPlayerFlashedOn() {
     // console.log('被闪了');
     let option = getRequestOption("l2d_flashed", true);
-    this.obs?.triggerHotkeyWhenExpressionState({
+    this.vts?.triggerHotkeyWhenExpressionState({
         triggerName: "crying",
         expressionName: "叉叉眼",
         flag: false
@@ -45,7 +45,7 @@ export function onPlayerFlashedOff() {
     // console.log('闪光结束了');
     let option = getRequestOption("l2d_flashed", false);
     timeout(() =>
-        this.obs?.triggerHotkeyWhenExpressionState({
+        this.vts?.triggerHotkeyWhenExpressionState({
             triggerName: "crying",
             expressionName: "叉叉眼",
             flag: true

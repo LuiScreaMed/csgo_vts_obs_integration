@@ -1,6 +1,6 @@
 /*
  * @Author: LuiScreaMed lui5@qq.com
- * @LastEditTime: 2023-04-06 23:39:33
+ * @LastEditTime: 2023-04-06 23:43:02
  * Copyright (c) 2023 by LuiScreaMed
  * MIT Licensed
  * @Description: VTS Websocket client
@@ -39,12 +39,12 @@ export default class Vts {
 
     connect() {
         if (this.vts !== null) {
-            console.log('theres already a vts client instance.');
+            console.log('There,s already a VTS client instance.');
             return;
         }
         this.vts = new VtsWebSocket(this.options);
         this.vts.on('connect', () => {
-            console.log(`vts connected: ${this.options.url}`);
+            console.log(`VTS Connected: ${this.options.url}`);
         });
     }
 
@@ -79,16 +79,16 @@ export default class Vts {
         if (!this.vts.isConnected ||
             data.expressionName === undefined ||
             data.flag === undefined) return;
-        console.log(`vts: setting expression: ${data.expressionName}, enabled: ${data.flag}`);
+        console.log(`VTS: setting expression: ${data.expressionName}, enabled: ${data.flag}`);
         this.vts.expressionActivation({
             expressionFile: this.#getExpressionName(data.expressionName),
             active: data.flag
         }, {
             timeout: this.timeout
         }).then((res) => {
-            console.log(`vts: setting expression: success`);
+            console.log(`VTS: setting expression: SUCCESS`);
         }).catch((e) => {
-            console.log('vts: setting expression: error', e);
+            console.log('VTS: setting expression: ERROR', e);
         });
     }
 
@@ -97,13 +97,13 @@ export default class Vts {
         triggerName: string
     }) {
         if (!this.vts.isConnected || data.triggerName === undefined) return;
-        console.log(`vts: triggering hotkey: ${data.triggerName}`);
+        console.log(`VTS: triggering hotkey: ${data.triggerName}`);
         this.vts.hotkeyTrigger({
             hotkeyID: data.triggerName
         }, { timeout: this.timeout }).then((res) => {
-            console.log(`vts: triggering hotkey: success`);
+            console.log(`VTS: triggering hotkey: SUCCESS`);
         }).catch((e) => {
-            console.error('vts: triggering hotkey error:', e);
+            console.error('VTS: triggering hotkey: ERROR', e);
         });
     }
 
@@ -117,7 +117,7 @@ export default class Vts {
             data.triggerName === undefined ||
             data.flag === undefined ||
             data.expressionName === undefined) return;
-        console.log(`vts: triggering hotkey: ${data.triggerName} when expression:
+        console.log(`VTS: triggering hotkey: ${data.triggerName} when expression:
              ${data.expressionName}'s state is: ${data.flag}`);
         ///获取表情状态
         this.vts.expressionState({
@@ -127,10 +127,10 @@ export default class Vts {
             ///没有找到这个表情或表情状态不符合
             if (res.expressions.length == 0 || res.expressions[0].active !== data.flag) return;
             ///触发热键
-            console.log(`vts: triggering hotkey with expression state check: success`);
+            console.log(`VTS: triggering hotkey with expression state check: SUCCESS`);
             this.triggerHotkey({ triggerName: data.triggerName });
         }).catch((e) => {
-            console.log('vts: triggering hotkey with expression state check: error', e);
+            console.log('VTS: triggering hotkey with expression state check: ERROR', e);
         })
     }
 

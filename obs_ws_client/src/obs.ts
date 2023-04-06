@@ -1,6 +1,6 @@
 /*
  * @Author: LuiScreaMed lui5@qq.com
- * @LastEditTime: 2023-04-06 13:37:12
+ * @LastEditTime: 2023-04-06 23:54:41
  * Copyright (c) 2023 by LuiScreaMed
  * MIT Licensed
  * @Description: obs client
@@ -21,11 +21,7 @@ export default class Obs {
     password?: string;
     obs: OBSWebSocket;
     sceneItems: SceneItems;
-    /**
-     * @constructor
-     * @description Obs
-     * @param {{url: String, password: String}} info
-     */
+
     constructor(info: ObsInfo) {
         this.url = info.url;
         this.password = info.password;
@@ -38,14 +34,16 @@ export default class Obs {
         let obs = new OBSWebSocket();
         ///连接后获取所有场景源
         obs.on("ConnectionOpened", () => {
-            console.log(`obs connected: ${this.url}`);
+            console.log(`OBS connected: ${this.url}`);
             timeout(() => this.getAllItems(), 1000);
         });
         ///断开重连
         obs.on("ConnectionClosed", (item: OBSWebSocketError) => {
-            console.log("obs disconnected");
-            // console.error(item);
-            this.reconnect()
+            if (item.code !== 1006) {
+                console.log(`OBS disconnected: ${this.url}`);
+                console.log(`OBS reconnect in 5s...:  ${this.url}`);
+            };
+            this.reconnect();
         });
         ///源更改
         obs.on("SceneItemCreated", this.onItemCreated);
@@ -55,7 +53,7 @@ export default class Obs {
 
     ///连接
     async connect() {
-        if (!this.url) throw ('error: ip or port cannot be empty');
+        if (!this.url) throw ('OBS ERROR: ip or port cannot be empty');
         if (!this.url.startsWith('ws://')) this.url = `ws://${this.url}`;
         try {
             await this.obs.connect(this.url, this.password);
@@ -67,7 +65,6 @@ export default class Obs {
     ///重新连接
     async reconnect() {
         await this.disconnect();
-        console.log("obs reconnect in 5s...");
         timeout(() => this.connect(), 5000);
     }
 
@@ -121,7 +118,7 @@ export default class Obs {
     }) {
         let scene = this.sceneItems[data.sceneName];
         if (scene === undefined || scene[data.itemName] === undefined) return;
-        console.log(`obs: toggle item enabled: sceneName: ${data.sceneName}, itemName: ${data.itemName}, itemId: ${this.sceneItems[data.sceneName][data.itemName]}`);
+        console.log(`OBS: toggle item enabled: sceneName: ${data.sceneName}, itemName: ${data.itemName}, itemId: ${this.sceneItems[data.sceneName][data.itemName]}`);
         ///查询源当前的可见状态
         this.send("GetSceneItemEnabled", { sceneName: data.sceneName, sceneItemId: scene[data.itemName] }).then((res) => {
             if (res === true || res === false) return;
@@ -138,7 +135,7 @@ export default class Obs {
     }) {
         let scene = this.sceneItems[data.sceneName];
         if (scene === undefined || scene[data.itemName] === undefined) return;
-        console.log(`obs: setting item enabled: sceneName: ${data.sceneName}, itemName: ${data.itemName}, itemId: ${this.sceneItems[data.sceneName][data.itemName]}, enabled: ${data.enabled}`);
+        console.log(`OBS: setting item enabled: sceneName: ${data.sceneName}, itemName: ${data.itemName}, itemId: ${this.sceneItems[data.sceneName][data.itemName]}, enabled: ${data.enabled}`);
         await this.send("SetSceneItemEnabled", { sceneItemEnabled: data.enabled, sceneItemId: scene[data.itemName], sceneName: data.sceneName });
     }
 

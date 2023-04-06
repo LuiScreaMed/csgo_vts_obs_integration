@@ -1,6 +1,6 @@
 /*
  * @Author: LuiScreaMed lui5@qq.com
- * @LastEditTime: 2023-04-05 23:49:51
+ * @LastEditTime: 2023-04-06 13:37:12
  * Copyright (c) 2023 by LuiScreaMed
  * MIT Licensed
  * @Description: obs client
@@ -112,6 +112,22 @@ export default class Obs {
         } catch (e) {
             console.error(e)
         }
+    }
+
+    ///切换源可见
+    async toggleItemEnabled(data: {
+        sceneName: string,
+        itemName: string,
+    }) {
+        let scene = this.sceneItems[data.sceneName];
+        if (scene === undefined || scene[data.itemName] === undefined) return;
+        console.log(`obs: toggle item enabled: sceneName: ${data.sceneName}, itemName: ${data.itemName}, itemId: ${this.sceneItems[data.sceneName][data.itemName]}`);
+        ///查询源当前的可见状态
+        this.send("GetSceneItemEnabled", { sceneName: data.sceneName, sceneItemId: scene[data.itemName] }).then((res) => {
+            if (res === true || res === false) return;
+            let enabled = res.sceneItemEnabled;
+            this.send("SetSceneItemEnabled", { sceneItemEnabled: !enabled, sceneItemId: scene[data.itemName], sceneName: data.sceneName });
+        }).catch(console.log);
     }
 
     ///设置源是否可见

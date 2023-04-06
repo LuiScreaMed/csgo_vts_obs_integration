@@ -1,6 +1,6 @@
 /*
  * @Author: LuiScreaMed lui5@qq.com
- * @LastEditTime: 2023-04-05 02:29:12
+ * @LastEditTime: 2023-04-06 13:40:07
  * Copyright (c) 2023 by LuiScreaMed
  * MIT Licensed
  * @Description: main entry
@@ -17,8 +17,8 @@ export default class StreamingCenter {
     configs: Configs;
     /* csgo数据通讯 */
     csgo?: Csgo;
-    /* 游戏机obs，发现并不需要连接 */
-    // captureObs?: Obs;
+    /* 游戏机obs */
+    captureObs?: Obs;
     /* 推流机obs */
     streamObs?: Obs;
     /* vts */
@@ -30,16 +30,17 @@ export default class StreamingCenter {
         this.configs = configs;
         this.csgo = null;
         this.streamObs = null;
+        this.captureObs = null;
         this.vts = null;
         this.controlServer = null;
     }
 
     start() {
         this.streamObs = this.initObs(this.configs.streamObs);
-        // this.captureObs = this.initObs(this.configs.captureObs);
+        this.captureObs = this.initObs(this.configs.captureObs);
         this.vts = this.initVts(this.configs.vts);
         this.csgo = this.initCsgo(this.configs.csgo, this.streamObs, this.vts);
-        this.controlServer = this.initControlServer(this.configs.controlServer);
+        this.controlServer = this.initControlServer(this.configs.controlServer, this.captureObs);
     }
 
     ///初始化obs连接
@@ -63,15 +64,15 @@ export default class StreamingCenter {
     }
 
     ///初始化csgo数据通讯
-    initCsgo(config: Config, obs: Obs, vts: any): Csgo {
+    initCsgo(config: Config, obs?: Obs, vts?: any): Csgo {
         let csgo = new Csgo(config, obs, vts);
         csgo.start();
         return csgo;
     }
 
     ///初始化交互服务器
-    initControlServer(config: Config): ControlServer {
-        let controlServer = new ControlServer({ port: config.port });
+    initControlServer(config: Config, captureObs?: Obs): ControlServer {
+        let controlServer = new ControlServer({ port: config.port,  captureObs: captureObs});
         controlServer.start();
         return controlServer;
     }

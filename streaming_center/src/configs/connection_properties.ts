@@ -1,6 +1,6 @@
 /*
  * @Author: LuiScreaMed lui5@qq.com
- * @LastEditTime: 2023-04-05 23:50:20
+ * @LastEditTime: 2023-04-06 13:46:33
  * Copyright (c) 2023 by LuiScreaMed
  * MIT Licensed
  * @Description: configs for servers / clients
@@ -19,6 +19,11 @@ export interface Config {
 
 export interface Configs {
     [key: string]: Config
+}
+
+///游戏机obs相关参数
+const captureObs: Config = {
+    url: "192.168.100.100:4444",
 }
 
 ///推流机obs相关参数
@@ -46,6 +51,7 @@ const controlServer: Config = {
 }
 
 const configs: Configs = {
+    captureObs,
     streamObs,
     vts,
     csgo,

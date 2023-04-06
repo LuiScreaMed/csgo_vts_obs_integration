@@ -1,6 +1,6 @@
 /*
  * @Author: LuiScreaMed lui5@qq.com
- * @LastEditTime: 2023-04-05 15:56:45
+ * @LastEditTime: 2023-04-06 13:59:26
  * Copyright (c) 2023 by LuiScreaMed
  * MIT Licensed
  * @Description: 用于通过http请求控制前后端和obs的交互
@@ -8,18 +8,22 @@
 import http from 'http';
 import ws from 'ws';
 import url from 'url';
+import Obs from 'obs-ws-client';
 
 ///与前端交互的后端，主要是实现转场
 export default class ControlServer {
     port: number;
     server: http.Server;
     wsServer: ws.WebSocketServer;
+    captureObs?: Obs;
 
     constructor(info: ServerInfo) {
         this.port = info.port;
         this.server = http.createServer((req, res) => this.onHttpRequest(req, res));
         ///http和ws共用端口
         this.wsServer = new ws.WebSocketServer({ server: this.server });
+        ///游戏机obs
+        this.captureObs = info.captureObs;
     }
 
     start() {
@@ -64,10 +68,19 @@ export default class ControlServer {
                 });
                 break;
             }
+            ///切换游戏画面
+            case "toggleScreen": {
+                this.captureObs?.toggleItemEnabled({
+                    sceneName: "场景",
+                    itemName: "screen",
+                });
+                break;
+            }
         }
     }
 }
 
 interface ServerInfo {
-    port: number
+    port: number,
+    captureObs: Obs
 }

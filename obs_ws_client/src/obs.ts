@@ -1,6 +1,6 @@
 /*
  * @Author: LuiScreaMed lui5@qq.com
- * @LastEditTime: 2023-04-06 23:54:41
+ * @LastEditTime: 2023-04-10 23:58:27
  * Copyright (c) 2023 by LuiScreaMed
  * MIT Licensed
  * @Description: obs client
@@ -41,7 +41,7 @@ export default class Obs {
         obs.on("ConnectionClosed", (item: OBSWebSocketError) => {
             if (item.code !== 1006) {
                 console.log(`OBS disconnected: ${this.url}`);
-                console.log(`OBS reconnect in 5s...:  ${this.url}`);
+                // console.log(`OBS reconnect in 5s...:  ${this.url}`);
             };
             this.reconnect();
         });

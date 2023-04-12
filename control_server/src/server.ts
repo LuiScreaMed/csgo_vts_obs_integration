@@ -1,6 +1,6 @@
 /*
  * @Author: LuiScreaMed lui5@qq.com
- * @LastEditTime: 2023-04-06 13:59:26
+ * @LastEditTime: 2023-04-12 17:38:30
  * Copyright (c) 2023 by LuiScreaMed
  * MIT Licensed
  * @Description: 用于通过http请求控制前后端和obs的交互
@@ -49,11 +49,9 @@ export default class ControlServer {
         res.setHeader("Content-Type", "*");
         res.writeHead(200, { "Content-Type": "text/plain" });
         let params = url.parse(req.url, true).query;
-        if (params["action"] === undefined) {
-            res.end('');
-            return;
+        if (params["action"] !== undefined) {
+            this.handleAction(params["action"] as string);
         }
-        this.handleAction(params["action"] as string);
         res.end('');
     }
 

@@ -1,6 +1,6 @@
 /*
  * @Author: LuiScreaMed lui5@qq.com
- * @LastEditTime: 2023-04-04 23:09:13
+ * @LastEditTime: 2023-04-14 02:37:47
  * Copyright (c) 2023 by LuiScreaMed
  * MIT Licensed
  * @Description: register callback list for csgo events
@@ -15,7 +15,13 @@ import { onPlayerBurningOff, onPlayerBurningOn, onPlayerFlashedOff, onPlayerFlas
 ///各种事件的回调方法列表
 const callbacks: CallBackList = {
     [Player.health.drop]: onPlayerDropHp,
-    [Player.health.dead]: onPlayerDie,
+    ///添加消除各个状态的操作
+    [Player.health.dead]: () => {
+        onPlayerDie();
+        onPlayerSmokedOff();
+        onPlayerFlashedOff();
+        onPlayerBurningOff();
+    },
     [Player.health.full]: onPlayerFullHp,
     [Player.health.half]: onPlayerHalfHp,
     [Player.health.high]: onPlayerHighHp,

@@ -1,6 +1,6 @@
 /*
  * @Author: LuiScreaMed lui5@qq.com
- * @LastEditTime: 2023-06-10 23:14:42
+ * @LastEditTime: 2023-06-11 00:08:25
  * Copyright (c) 2023 by LuiScreaMed
  * MIT Licensed
  * @Description: main entry
@@ -74,7 +74,7 @@ export default class StreamingCenter {
     initControlServer(config: Config, captureObs?: Obs): ControlServer {
         let controlServer = new ControlServer({ port: config.port, captureObs: captureObs });
         controlServer.start();
-        controlServer.on("vtsTrigger", this.onVtsTrigger);
+        controlServer.on("vtsTrigger", this.onVtsTrigger.bind(this));
         return controlServer;
     }
 

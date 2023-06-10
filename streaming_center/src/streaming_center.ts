@@ -1,6 +1,6 @@
 /*
  * @Author: LuiScreaMed lui5@qq.com
- * @LastEditTime: 2023-04-06 13:40:07
+ * @LastEditTime: 2023-06-10 23:14:42
  * Copyright (c) 2023 by LuiScreaMed
  * MIT Licensed
  * @Description: main entry
@@ -72,8 +72,14 @@ export default class StreamingCenter {
 
     ///初始化交互服务器
     initControlServer(config: Config, captureObs?: Obs): ControlServer {
-        let controlServer = new ControlServer({ port: config.port,  captureObs: captureObs});
+        let controlServer = new ControlServer({ port: config.port, captureObs: captureObs });
         controlServer.start();
+        controlServer.on("vtsTrigger", this.onVtsTrigger);
         return controlServer;
+    }
+
+    onVtsTrigger(triggerName: string | undefined) {
+        if (!triggerName) return;
+        this.vts?.triggerHotkey({ triggerName });
     }
 }
